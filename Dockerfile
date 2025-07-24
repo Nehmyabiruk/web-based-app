@@ -1,17 +1,18 @@
-# Use Flutter SDK image
-FROM ghcr.io/flutter/flutter:stable
+FROM dart:stable
 
-# Set working directory
+# Install Flutter manually
+RUN git clone https://github.com/flutter/flutter.git /flutter \
+  && export PATH="/flutter/bin:$PATH" \
+  && flutter doctor
+
+ENV PATH="/flutter/bin:/flutter/bin/cache/dart-sdk/bin:$PATH"
+
+# Continue with your setup...
 WORKDIR /app
-
-# Copy your web build output
 COPY build/web .
 
-# Install a simple Dart HTTP server
 RUN dart pub global activate dhttpd
 
-# Expose port 8080
 EXPOSE 8080
 
-# Run the server
 CMD ["dhttpd", "--path", ".", "--host", "0.0.0.0", "--port", "8080"]
