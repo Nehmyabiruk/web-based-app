@@ -134,7 +134,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     });
     
     print("Attempting login");
-    final response = await http.get(Uri.parse("http://localhost:3000/user"));
+    final response = await http.get(Uri.parse("https://web-based-app-production.up.railway.app/user"));
     
     await Future.delayed(Duration(milliseconds: 1500)); // Smooth loading effect
     
