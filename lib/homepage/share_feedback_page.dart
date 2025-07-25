@@ -22,7 +22,7 @@ class _ShareFeedbackPageState extends State<ShareFeedbackPage>
   int _rating = 0;
   bool _isSubmitting = false;
   bool _showThankYou = false;
-  bool _isDarkMode = false;
+  bool _isDarkMode = true;
   
   late AnimationController _mainController;
   late AnimationController _particleController;

@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       TextEditingController passwordController) async {
     print("Attempting to register new user");
     final response = await http.post(
-      Uri.parse("http://localhost:3000/user"),
+      Uri.parse("https://web-based-app-production.up.railway.app/user"),
       body: jsonEncode({
         'username': username,
         'pass': password,

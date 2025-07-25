@@ -106,8 +106,9 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
     });
     
     print("Attempting to register new user");
-    const String url = "http://localhost:3000/user";
+    const String url = "https://web-based-app-production.up.railway.app/user";
     
+
     try {
       await Future.delayed(Duration(milliseconds: 2000)); // Smooth loading effect
       
