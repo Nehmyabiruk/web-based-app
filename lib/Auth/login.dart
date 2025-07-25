@@ -7,9 +7,8 @@ import 'package:neh/Auth/user_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:neh/homepage/homepage.dart';
 import 'package:neh/main.dart';
-import 'package:platform/platform.dart' as platform;
-import 'package:flutter/foundation.dart' show defaultTargetPlatform;
-import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
+
 class LoginPage extends StatefulWidget {
   final dataList;
   
@@ -239,8 +238,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   }
 
   bool _isAndroidChrome() {
-  return defaultTargetPlatform == TargetPlatform.android && Platform.isAndroid;
-}
+    return defaultTargetPlatform == TargetPlatform.android && kIsWeb;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
