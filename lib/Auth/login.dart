@@ -7,7 +7,6 @@ import 'package:neh/Auth/user_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:neh/homepage/homepage.dart';
 import 'package:neh/main.dart';
-import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 
 class LoginPage extends StatefulWidget {
   final dataList;
@@ -151,7 +150,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   pass: '',
                   id: ''),
             );
-        if (matchedUser.username != '' && matchedUser.pass != '') {
+        if (matchedUser != '' && matchedUser.pass != '') {
           print(
               "Username: ${matchedUser.username}, Password: ${matchedUser.pass}");
           
@@ -205,36 +204,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       });
       throw Exception('Failed to fetch users');
     }
-  }
-
-  Future<void> guestLogin(BuildContext context) async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    await Future.delayed(Duration(milliseconds: 1500)); // Smooth loading effect
-
-    HapticFeedback.lightImpact();
-    
-    Navigator.pushReplacement(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => HomePage(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          return SlideTransition(
-            position: Tween<Offset>(
-              begin: Offset(1.0, 0.0),
-              end: Offset.zero,
-            ).animate(animation),
-            child: child,
-          );
-        },
-      ),
-    );
-
-    setState(() {
-      _isLoading = false;
-    });
   }
 
   @override
@@ -338,6 +307,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                           ],
                                         ),
                                         child: Icon(
+                                          
                                           Icons.church,
                                           size: 60,
                                           color: Colors.white,
@@ -346,6 +316,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                     );
                                   },
                                 ),
+ 
                                 SizedBox(height: 30),
                                 
                                 // Welcome Text
@@ -466,6 +437,23 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                     ),
                                   ],
                                 ),
+                                                               _buildGradientButton(
+  onPressed: () {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage()),
+    );
+  },
+  child: Text(
+    'Login for android',
+    style: TextStyle(
+      fontSize: 18,
+      fontWeight: FontWeight.bold,
+      color: Colors.white,
+    ),
+  ),
+),
+
                                 SizedBox(height: 30),
                                 
                                 // Login Button
@@ -501,48 +489,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                             ),
                                           ],
                                         )
+                                        
                                       : Text(
                                           'Sign In',
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                ),
-                                
-                                // Android Login Button
-                                SizedBox(height: 20),
-                                _buildGradientButton(
-                                  onPressed: _isLoading ? null : () {
-                                    HapticFeedback.mediumImpact();
-                                    guestLogin(context);
-                                  },
-                                  child: _isLoading
-                                      ? Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            SizedBox(
-                                              width: 20,
-                                              height: 20,
-                                              child: CircularProgressIndicator(
-                                                strokeWidth: 2,
-                                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                                              ),
-                                            ),
-                                            SizedBox(width: 10),
-                                            Text(
-                                              'Logging in for Android...',
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      : Text(
-                                          'Login for Android',
                                           style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold,
