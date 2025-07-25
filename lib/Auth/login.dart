@@ -7,7 +7,7 @@ import 'package:neh/Auth/user_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:neh/homepage/homepage.dart';
 import 'package:neh/main.dart';
-import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
+import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 
 class LoginPage extends StatefulWidget {
   final dataList;
@@ -235,10 +235,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     setState(() {
       _isLoading = false;
     });
-  }
-
-  bool _isAndroidChrome() {
-    return defaultTargetPlatform == TargetPlatform.android && kIsWeb;
   }
 
   @override
@@ -515,47 +511,45 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                         ),
                                 ),
                                 
-                                // Android Chrome Guest Login Button
-                                if (_isAndroidChrome()) ...[
-                                  SizedBox(height: 20),
-                                  _buildGradientButton(
-                                    onPressed: _isLoading ? null : () {
-                                      HapticFeedback.mediumImpact();
-                                      guestLogin(context);
-                                    },
-                                    child: _isLoading
-                                        ? Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              SizedBox(
-                                                width: 20,
-                                                height: 20,
-                                                child: CircularProgressIndicator(
-                                                  strokeWidth: 2,
-                                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                                                ),
+                                // Android Login Button
+                                SizedBox(height: 20),
+                                _buildGradientButton(
+                                  onPressed: _isLoading ? null : () {
+                                    HapticFeedback.mediumImpact();
+                                    guestLogin(context);
+                                  },
+                                  child: _isLoading
+                                      ? Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              width: 20,
+                                              height: 20,
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 2,
+                                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                                               ),
-                                              SizedBox(width: 10),
-                                              Text(
-                                                'Continuing as Guest...',
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ],
-                                          )
-                                        : Text(
-                                            'Continue as Guest',
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white,
                                             ),
+                                            SizedBox(width: 10),
+                                            Text(
+                                              'Logging in for Android...',
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      : Text(
+                                          'Login for Android',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
                                           ),
-                                  ),
-                                ],
+                                        ),
+                                ),
                               ],
                             ),
                           ),
