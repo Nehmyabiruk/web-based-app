@@ -7,7 +7,9 @@ import 'package:neh/Auth/user_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:neh/homepage/homepage.dart';
 import 'package:neh/main.dart';
-
+import 'package:platform/platform.dart' as platform;
+import 'package:flutter/foundation.dart' show defaultTargetPlatform;
+import 'dart:io' show Platform;
 class LoginPage extends StatefulWidget {
   final dataList;
   
@@ -150,7 +152,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   pass: '',
                   id: ''),
             );
-        if (matchedUser != '' && matchedUser.pass != '') {
+        if (matchedUser.username != '' && matchedUser.pass != '') {
           print(
               "Username: ${matchedUser.username}, Password: ${matchedUser.pass}");
           
@@ -206,6 +208,39 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     }
   }
 
+  Future<void> guestLogin(BuildContext context) async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    await Future.delayed(Duration(milliseconds: 1500)); // Smooth loading effect
+
+    HapticFeedback.lightImpact();
+    
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => HomePage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: Offset(1.0, 0.0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    );
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  bool _isAndroidChrome() {
+  return defaultTargetPlatform == TargetPlatform.android && Platform.isAndroid;
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -479,6 +514,48 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                           ),
                                         ),
                                 ),
+                                
+                                // Android Chrome Guest Login Button
+                                if (_isAndroidChrome()) ...[
+                                  SizedBox(height: 20),
+                                  _buildGradientButton(
+                                    onPressed: _isLoading ? null : () {
+                                      HapticFeedback.mediumImpact();
+                                      guestLogin(context);
+                                    },
+                                    child: _isLoading
+                                        ? Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              SizedBox(
+                                                width: 20,
+                                                height: 20,
+                                                child: CircularProgressIndicator(
+                                                  strokeWidth: 2,
+                                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                                ),
+                                              ),
+                                              SizedBox(width: 10),
+                                              Text(
+                                                'Continuing as Guest...',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        : Text(
+                                            'Continue as Guest',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                  ),
+                                ],
                               ],
                             ),
                           ),
